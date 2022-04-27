@@ -51,12 +51,31 @@ public class SellerDaoImplJDBC implements SellerDao {
 
     @Override
     public void update(Seller obj) {
+        try{
+            pst = connection.prepareStatement("update seller set Name= ?, Email=?, BirthDate=?," +
+                    " BaseSalary=?, DepartmentId=? where Id=?");
+            pst.setString(1,obj.getName());
+            pst.setString(2,obj.getEmail());
+            pst.setDate(3,new java.sql.Date(obj.getBirthDay().getDate()));
+            pst.setBigDecimal(4,obj.getBaseSalary());
+            pst.setInt(5,obj.getDepartment().getId());
+            pst.setInt(6,obj.getId());
+            pst.executeUpdate();
+        }catch (SQLException e){
+            throw new DBException(e.getMessage());
+        }
 
     }
 
     @Override
     public void delete(Integer id) {
-
+        try {
+            pst = connection.prepareStatement("delete from seller where Id = ?");
+            pst.setInt(1,id);
+            pst.executeUpdate();
+        }catch (SQLException e){
+            throw new DBException(e.getMessage());
+        }
     }
 
     @Override
@@ -78,8 +97,6 @@ public class SellerDaoImplJDBC implements SellerDao {
             }
         } catch (SQLException e) {
             throw new DBException(e.getMessage());
-        } finally {
-            closeConnections();
         }
     }
 
@@ -98,8 +115,6 @@ public class SellerDaoImplJDBC implements SellerDao {
             return list;
         } catch (SQLException e) {
             throw new DBException(e.getMessage());
-        } finally {
-            closeConnections();
         }
     }
 
@@ -144,6 +159,7 @@ public class SellerDaoImplJDBC implements SellerDao {
         seller.setName(rs.getString("Name"));
         seller.setEmail(rs.getString("Email"));
         seller.setBirthDay(rs.getDate("BirthDate"));
+        seller.updateSalary(rs.getBigDecimal("BaseSalary"));
         //department = createDepartment(rs);
         seller.setDepartment(department);
         return seller;

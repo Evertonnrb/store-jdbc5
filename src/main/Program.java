@@ -16,16 +16,12 @@ public class Program {
     public static void main(String[] args) throws ParseException {
         SellerDao sellerDao = DaoFactory.createSellerDao();
         //  System.out.println(sellerDao.findById(3));
-
         /*Department department = new Department(2,null);
-
-
         System.out.println("Find all seller by deparment");
         List<Seller> allSellerByDepartment = sellerDao.findByDepartment(department);
         for(Seller s : allSellerByDepartment){
             System.out.println(s);
         }
-
         System.out.println("Find all");
         List<Seller> all = sellerDao.findAll();
         for (Seller s : all) {
@@ -33,8 +29,15 @@ public class Program {
         }*/
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
         Department department = new Department(1,null);
-        Date birthDate = dateFormat.parse("14/07/1986");
-        Seller seller = new Seller(null,"Brant Jouli ","brant_clin@gmail.com",birthDate,new BigDecimal("4000.0"),department);
-        sellerDao.insert(seller);
+        Date birthDate = dateFormat.parse("19/11/1985");
+        //Seller seller = new Seller(null,"Brant Jouli ","brant_clin@gmail.com",birthDate,new BigDecimal("4000.0"),department);
+        //sellerDao.insert(seller);
+        Seller seller1 = sellerDao.findById(9);
+        //System.out.println(seller1);
+        seller1.setName("Martha Wayne");
+        seller1.setEmail("martha_wy@gmail.com");
+        seller1.setBirthDay(birthDate);
+        //sellerDao.update(seller1);
+        //sellerDao.delete(11);
     }
 }

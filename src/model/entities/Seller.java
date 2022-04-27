@@ -16,4 +16,8 @@ public class Seller {
     private Date birthDay;
     private @Setter(AccessLevel.NONE) BigDecimal baseSalary;
     private Department department;
+
+    public void updateSalary(BigDecimal salary){
+        this.baseSalary = salary;
+    }
 }
